@@ -1,19 +1,34 @@
 package com.sparta.deliverypjt.model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @ToString
 @Entity
 @NoArgsConstructor
-@SequenceGenerator(name = "ORDER_SEQ", sequenceName = "ORDER_SEQ_NO", allocationSize = 1)
 public class Foods {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private int price;
+
+    @Column(nullable = false)
+    private int quantity;
+
+    public Foods(String name, int price, int quantity){
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price*quantity;
+    }
 }

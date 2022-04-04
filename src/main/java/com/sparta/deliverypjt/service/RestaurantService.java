@@ -1,30 +1,23 @@
 package com.sparta.deliverypjt.service;
 
-import com.sparta.deliverypjt.model.Food;
-import com.sparta.deliverypjt.model.Foods;
 import com.sparta.deliverypjt.model.Restaurant;
-import com.sparta.deliverypjt.repository.FoodRepository;
 import com.sparta.deliverypjt.repository.RestaurantRepository;
-import com.sparta.deliverypjt.requestDto.FoodDto;
 import com.sparta.deliverypjt.requestDto.ReataurantDto;
 import com.sparta.deliverypjt.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
-    private final FoodRepository foodRepository;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, FoodRepository foodRepository){
+    public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
-        this.foodRepository = foodRepository;
     }
 
     //전체 음식점 조회
@@ -43,29 +36,15 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    @Transactional(rollbackOn = IllegalArgumentException.class)
-    public void registerFood(Long restaurantId, List<FoodDto> requestDto) {
+    // 배달 가능 음식점 조회
+    public List<Restaurant> canDeliveryRestaurantList(int x, int y) {
+        List<Restaurant> restaurantList = new ArrayList<>();
 
-        for (FoodDto dto : requestDto) {
-            Optional<Food> foundResult = foodRepository.findByRestaurantIdAndName(restaurantId, dto.getName());
-
-            if (foundResult.isPresent()) {
-                throw new IllegalArgumentException("중복 메뉴 존재");
+        for(Restaurant restaurant : restaurantRepository.findAll()){
+            if(Math.abs(restaurant.getX()+restaurant.getY()-x-y)<=3){
+                restaurantList.add(restaurant);
             }
-
-            //가격 검사
-            Validator.priceValidator(dto.getPrice());
-
-            dto.setRestaurantId(restaurantId);
-
-            Food food = new Food(dto);
-
-            foodRepository.save(food);
         }
-
-    }
-
-    public List<Food> foodList(Long restaurantId) {
-        return foodRepository.findAllByRestaurantId(restaurantId);
+        return  restaurantList;
     }
 }

@@ -11,10 +11,9 @@ import javax.persistence.*;
 @ToString
 @Entity
 @NoArgsConstructor
-@SequenceGenerator(name = "Food_SEQ", sequenceName = "Food_SEQ_NO", allocationSize = 1)
 public class Food {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Food_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

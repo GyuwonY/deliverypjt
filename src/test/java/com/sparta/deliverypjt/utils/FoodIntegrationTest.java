@@ -158,7 +158,7 @@ class FoodIntegrationTest {
             ResponseEntity<FoodDto[]> response = restTemplate.getForEntity(
                     "/restaurant/" + restaurantId + "/foods",
                     FoodDto[].class);
-
+            System.out.println(response);
             // then
             assertEquals(HttpStatus.OK, response.getStatusCode());
             FoodDto[] foodsResponse = response.getBody();

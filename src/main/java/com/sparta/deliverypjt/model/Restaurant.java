@@ -11,10 +11,9 @@ import javax.persistence.*;
 @ToString
 @Entity
 @NoArgsConstructor
-@SequenceGenerator(name = "RESTAURANT_SEQ", sequenceName = "RESTAURANT_SEQ_NO", allocationSize = 1)
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESTAURANT_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -26,9 +25,17 @@ public class Restaurant {
     @Column(nullable = false)
     private int deliveryFee;
 
+    @Column(nullable = false)
+    private int x;
+
+    @Column(nullable = false)
+    private int y;
+
     public Restaurant(ReataurantDto requestDto){
         this.name = requestDto.getName();
         this.minOrderPrice = requestDto.getMinOrderPrice();
         this.deliveryFee = requestDto.getDeliveryFee();
+        this.x = requestDto.getX();
+        this.y = requestDto.getY();
     }
 }

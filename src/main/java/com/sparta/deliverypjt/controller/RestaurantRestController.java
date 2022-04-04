@@ -31,15 +31,9 @@ public class RestaurantRestController {
         return restaurantService.registerRestaurant(requestDto);
     }
 
-    //음식점의 음식 등록
-    @PostMapping("/restaurant/{restaurantId}/food/register")
-    public void registerFood(@PathVariable Long restaurantId, @RequestBody List<FoodDto> requestDto){
-        restaurantService.registerFood(restaurantId, requestDto);
-    }
-
-    //음식점 전체 메뉴 조회
-    @GetMapping("/restaurant/{restaurantId}/foods")
-    public List<Food> foodList(@PathVariable Long restaurantId){
-        return restaurantService.foodList(restaurantId);
+    //배달 가능 음식점 조회
+    @GetMapping("/restaurants")
+    public List<Restaurant> canDeliveryRestaurantList(@RequestParam(value = "x")int x, @RequestParam(value = "y")int y){
+        return restaurantService.canDeliveryRestaurantList(x, y);
     }
 }
