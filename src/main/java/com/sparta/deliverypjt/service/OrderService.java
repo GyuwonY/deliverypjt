@@ -58,7 +58,7 @@ public class OrderService {
 
             Foods orders = new Foods(menu.getName(), menu.getPrice(), food.getQuantity());
             order.totalPrice(orders.getPrice());
-            foodsList.add(foodsRepository.save(orders));
+            foodsList.add(orders);
         }
 
         //최소 주문금액 검사
